@@ -37,7 +37,7 @@ REF="${GITHUB_BASE_REF:-${GITHUB_REF}}"
 REF_BRANCH=$(echo "${REF}" | rev | cut -d/ -f1 | rev)
 [ -z "$REF_BRANCH" ] && echo 2>&1 "No ref branch" && exit 1
 
-COMMIT_AUTHOR="${INPUT_AUTHOR:-${GITHUB_ACTOR} <${GITHUB_ACTOR}@users.noreply.github.com>}"
+COMMIT_AUTHOR="${INPUT_COMMIT_AUTHOR:-${GITHUB_ACTOR} <${GITHUB_ACTOR}@users.noreply.github.com>}"
 COMMIT_MESSAGE="${INPUT_COMMIT_MESSAGE:-[${GITHUB_WORKFLOW}] Publish from ${GITHUB_REPOSITORY}:${REF_BRANCH}/${SOURCE_FOLDER}}"
 INITIAL_COMMIT_MESSAGE="${INPUT_INITIAL_COMMIT_MESSAGE}"
 
@@ -65,7 +65,9 @@ cd "${WORK_DIR}"
 echo "Initializing repository with remote ${REMOTE}"
 git init || exit 1
 git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com" || exit 1
+echo "git config --local user.email ${GITHUB_ACTOR}@users.noreply.github.com"
 git config --local user.name  "${GITHUB_ACTOR}" || exit 1
+echo "git config --local user.name  ${GITHUB_ACTOR}"
 git remote add origin "${REMOTE}" || exit 1
 
 # Fetch initial (current contents).
