@@ -69,7 +69,7 @@ echo "git config --local user.email ${COMMIT_AUTHOR}@users.noreply.github.com"
 git config --local user.name  "${COMMIT_AUTHOR}" || exit 1
 echo "git config --local user.name  ${COMMIT_AUTHOR}"
 git remote add origin "${REMOTE}" || exit 1
-
+git config --local --list
 # Fetch initial (current contents).
 #
 echo "Fetching ${REMOTE}:${BRANCH}"
