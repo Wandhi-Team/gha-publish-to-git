@@ -64,10 +64,10 @@ cd "${WORK_DIR}"
 #
 echo "Initializing repository with remote ${REMOTE}"
 git init || exit 1
-git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com" || exit 1
-echo "git config --local user.email ${GITHUB_ACTOR}@users.noreply.github.com"
-git config --local user.name  "${GITHUB_ACTOR}" || exit 1
-echo "git config --local user.name  ${GITHUB_ACTOR}"
+git config --local user.email "${COMMIT_AUTHOR}@users.noreply.github.com" || exit 1
+echo "git config --local user.email ${COMMIT_AUTHOR}@users.noreply.github.com"
+git config --local user.name  "${COMMIT_AUTHOR}" || exit 1
+echo "git config --local user.name  ${COMMIT_AUTHOR}"
 git remote add origin "${REMOTE}" || exit 1
 
 # Fetch initial (current contents).
