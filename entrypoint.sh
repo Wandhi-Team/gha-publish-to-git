@@ -115,7 +115,7 @@ fi
 #
 echo "Creating commit"
 git add "${TARGET_PATH}" || exit 1
-git commit -m "${COMMIT_MESSAGE}" --author "${COMMIT_AUTHOR}" || exit 1
+git commit -m "${COMMIT_MESSAGE}" --author "${INPUT_COMMIT_AUTHOR}" || exit 1
 COMMIT_HASH="$(git rev-parse HEAD)"
 echo "Created commit ${COMMIT_HASH}"
 
