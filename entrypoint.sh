@@ -73,7 +73,7 @@ git config --global --list
 # Fetch initial (current contents).
 #
 echo "Fetching ${REMOTE}:${BRANCH}"
-if [ "$(git ls-remote --heads "${REMOTE}" "${BRANCH}"  | wc -l)" == 0 ] ; then 
+if [ "$(git ls-remote --heads "${REMOTE}" "${BRANCH}"  | wc -l)" == 0 ] ; then
     echo "Initialising ${BRANCH} branch"
     git checkout --orphan ${BRANCH}
     TARGET_PATH="${WORK_DIR}/${TARGET_FOLDER}"
@@ -120,6 +120,9 @@ git add "${TARGET_PATH}" || exit 1
 git commit -m "${COMMIT_MESSAGE}" --author "${COMMIT_AUTHOR} <${COMMIT_AUTHOR}@users.noreply.github.com>" || exit 1
 COMMIT_HASH="$(git rev-parse HEAD)"
 echo "Created commit ${COMMIT_HASH}"
+TAG_NAME=$(date +%Y%m%d-%H%M%S)
+git tag $d
+echo "Created tag ${TAG_NAME}"
 
 # Publish output variables.
 #
@@ -131,6 +134,8 @@ echo "::set-output name=working_directory::${WORK_DIR}"
 if [ -z "${INPUT_DRYRUN}" ] ; then
     echo "Pushing to ${REMOTE}:${BRANCH}"
     git push origin "${BRANCH}" || exit 1
+    echo "Pushing tags"
+    git push --tags
 else
     echo "[DRY-RUN] Not pushing to ${REMOTE}:${BRANCH}"
 fi
