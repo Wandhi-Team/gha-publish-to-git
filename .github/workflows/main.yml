@@ -18,7 +18,7 @@ jobs:
         with:
           branch: test
           github_token: '${{ secrets.MY_TOKEN  }}'
-          source_folder: .github
+          source_folder: ./
           target_folder: test
 #          dry_run: false
       - shell: bash
