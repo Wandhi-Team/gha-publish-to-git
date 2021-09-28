@@ -16,7 +16,7 @@ jobs:
       - uses: ./
         id: publish
         with:
-          branch: master
+          branch: test
           github_token: '${{ secrets.GITHUB_TOKEN  }}'
           source_folder: .github
           target_folder: test
