@@ -121,6 +121,9 @@ git commit -m "${COMMIT_MESSAGE}" --author "${COMMIT_AUTHOR} <${COMMIT_AUTHOR}@u
 COMMIT_HASH="$(git rev-parse HEAD)"
 echo "Created commit ${COMMIT_HASH}"
 TAG_NAME=$(date +%Y%m%d-%H%M%S)
+if [ ! -f "VERSION" ]; then
+    TAG_NAME=$(cat VERSION)
+fi
 git tag $d
 echo "Created tag ${TAG_NAME}"
 
