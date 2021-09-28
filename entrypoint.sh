@@ -127,7 +127,7 @@ else
   TAG_NAME=$(cat VERSION)
   echo "Version file is exists,tag name will be use version file"
 fi
-git tag -a $d
+git tag "$TAG_NAME"
 echo "Created tag ${TAG_NAME}"
 
 # Publish output variables.
