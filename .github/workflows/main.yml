@@ -20,7 +20,7 @@ jobs:
           github_token: '${{ secrets.GITHUB_TOKEN  }}'
           source_folder: .github
           target_folder: test
-          dry_run: true
+          dry_run: false
       - shell: bash
         run: |
           test -n "${{ steps.publish.outputs.commit_hash }}"
