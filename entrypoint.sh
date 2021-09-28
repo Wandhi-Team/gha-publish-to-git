@@ -66,37 +66,37 @@ echo "Initializing repository with remote ${REMOTE}"
 git init || exit 1
 git config --global user.email "${COMMIT_AUTHOR}@users.noreply.github.com" || exit 1
 echo "git config --global user.email ${COMMIT_AUTHOR}@users.noreply.github.com"
-git config --global user.name  "${COMMIT_AUTHOR}" || exit 1
+git config --global user.name "${COMMIT_AUTHOR}" || exit 1
 echo "git config --global user.name  ${COMMIT_AUTHOR}"
 git remote add origin "${REMOTE}" || exit 1
 git config --global --list
 # Fetch initial (current contents).
 #
 echo "Fetching ${REMOTE}:${BRANCH}"
-if [ "$(git ls-remote --heads "${REMOTE}" "${BRANCH}"  | wc -l)" == 0 ] ; then
-    echo "Initialising ${BRANCH} branch"
-    git checkout --orphan ${BRANCH}
-    TARGET_PATH="${WORK_DIR}/${TARGET_FOLDER}"
-    echo "Populating ${TARGET_PATH}"
-    mkdir -p "${TARGET_PATH}" || exit 1
-    rsync -a --quiet --delete --exclude ".git" "${INITIAL_SOURCE_PATH}/" "${TARGET_PATH}" || exit 1
+if [ "$(git ls-remote --heads "${REMOTE}" "${BRANCH}" | wc -l)" == 0 ]; then
+  echo "Initialising ${BRANCH} branch"
+  git checkout --orphan ${BRANCH}
+  TARGET_PATH="${WORK_DIR}/${TARGET_FOLDER}"
+  echo "Populating ${TARGET_PATH}"
+  mkdir -p "${TARGET_PATH}" || exit 1
+  rsync -a --quiet --delete --exclude ".git" "${INITIAL_SOURCE_PATH}/" "${TARGET_PATH}" || exit 1
 
-    echo "Creating initial commit"
-    git add "${TARGET_PATH}" || exit 1
-    git commit -m "${INITIAL_COMMIT_MESSAGE}" --author "${COMMIT_AUTHOR}" || exit 1
-    COMMIT_HASH="$(git rev-parse HEAD)"
-    echo "Created commit ${COMMIT_HASH}"
+  echo "Creating initial commit"
+  git add "${TARGET_PATH}" || exit 1
+  git commit -m "${INITIAL_COMMIT_MESSAGE}" --author "${COMMIT_AUTHOR}" || exit 1
+  COMMIT_HASH="$(git rev-parse HEAD)"
+  echo "Created commit ${COMMIT_HASH}"
 
-    if [ -z "${INPUT_DRYRUN}" ] ; then
-        echo "Pushing to ${REMOTE}:${BRANCH}"
-        git push origin "${BRANCH}" || exit 1
-    else
-        echo "[DRY-RUN] Not pushing to ${REMOTE}:${BRANCH}"
-    fi
+  if [ -z "${INPUT_DRYRUN}" ]; then
+    echo "Pushing to ${REMOTE}:${BRANCH}"
+    git push origin "${BRANCH}" || exit 1
+  else
+    echo "[DRY-RUN] Not pushing to ${REMOTE}:${BRANCH}"
+  fi
 else
-    git fetch --depth 1 origin "${BRANCH}" || exit 1
-    git checkout -b "${BRANCH}" || exit 1
-    git pull origin "${BRANCH}" || exit 1
+  git fetch --depth 1 origin "${BRANCH}" || exit 1
+  git checkout -b "${BRANCH}" || exit 1
+  git pull origin "${BRANCH}" || exit 1
 fi
 
 # Create the target directory (if necessary) and copy files from source.
@@ -108,9 +108,9 @@ rsync -a --quiet --delete --exclude ".git" "${SOURCE_PATH}/" "${TARGET_PATH}" ||
 
 # Check changes
 #
-if [ -z "$(git status -s)" ] ; then
-    echo "No changes, script exited"
-    exit 0
+if [ -z "$(git status -s)" ]; then
+  echo "No changes, script exited"
+  exit 0
 fi
 
 # Create commit with changes.
@@ -122,7 +122,10 @@ COMMIT_HASH="$(git rev-parse HEAD)"
 echo "Created commit ${COMMIT_HASH}"
 TAG_NAME=$(date +%Y%m%d-%H%M%S)
 if [ ! -f "VERSION" ]; then
-    TAG_NAME=$(cat VERSION)
+  echo "Version file is not exists"
+else
+  TAG_NAME=$(cat VERSION)
+  echo "Version file is exists,tag name will be use version file"
 fi
 git tag $d
 echo "Created tag ${TAG_NAME}"
@@ -134,12 +137,12 @@ echo "::set-output name=working_directory::${WORK_DIR}"
 
 # Push if not a dry-run.
 #
-if [ -z "${INPUT_DRYRUN}" ] ; then
-    echo "Pushing to ${REMOTE}:${BRANCH}"
-    git push origin "${BRANCH}" || exit 1
-    echo "Pushing tags"
-    git push origin "${TAG_NAME}"
-    git push --tags
+if [ -z "${INPUT_DRYRUN}" ]; then
+  echo "Pushing to ${REMOTE}:${BRANCH}"
+  git push origin "${BRANCH}" || exit 1
+  echo "Pushing tags"
+  git push origin "${TAG_NAME}"
+  git push --tags
 else
-    echo "[DRY-RUN] Not pushing to ${REMOTE}:${BRANCH}"
+  echo "[DRY-RUN] Not pushing to ${REMOTE}:${BRANCH}"
 fi
