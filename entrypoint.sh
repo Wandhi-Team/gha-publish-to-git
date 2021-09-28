@@ -141,7 +141,7 @@ if [ -z "${INPUT_DRYRUN}" ]; then
   echo "Pushing to ${REMOTE}:${BRANCH}"
   git push origin "${BRANCH}" || exit 1
   echo "Pushing tags"
-  git tag
+  echo $(git tag)
   git push origin "${TAG_NAME}"
   git push origin --tags
 else
