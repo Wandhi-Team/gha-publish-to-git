@@ -138,12 +138,13 @@ echo "::set-output name=working_directory::${WORK_DIR}"
 # Push if not a dry-run.
 #
 if [ -z "${INPUT_DRYRUN}" ]; then
-  echo "Pushing to ${REMOTE}:${BRANCH}"
-  git push origin "${BRANCH}" || exit 1
   echo "Pushing tags"
   echo $(git tag)
 #  git push origin "${TAG_NAME}"
   git push origin --tags
+
+  echo "Pushing to ${REMOTE}:${BRANCH}"
+  git push origin "${BRANCH}" || exit 1
 else
   echo "[DRY-RUN] Not pushing to ${REMOTE}:${BRANCH}"
 fi
