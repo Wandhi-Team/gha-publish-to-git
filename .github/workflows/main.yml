@@ -17,7 +17,7 @@ jobs:
         id: publish
         with:
           branch: test
-          github_token: '${{ secrets.GITHUB_TOKEN  }}'
+          github_token: '${{ secrets.MY_TOKEN  }}'
           source_folder: .github
           target_folder: test
 #          dry_run: false
