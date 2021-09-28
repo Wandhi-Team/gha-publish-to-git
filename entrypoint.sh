@@ -143,7 +143,7 @@ if [ -z "${INPUT_DRYRUN}" ]; then
   echo "Pushing tags"
   git tag
   git push origin "${TAG_NAME}"
-  git push --tags
+  git push origin --tags
 else
   echo "[DRY-RUN] Not pushing to ${REMOTE}:${BRANCH}"
 fi
