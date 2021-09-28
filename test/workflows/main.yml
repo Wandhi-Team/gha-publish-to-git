@@ -1,0 +1,28 @@
+name: publish-to-git
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+      - uses: ./
+        id: publish
+        with:
+          branch: test
+          github_token: '${{ secrets.MY_TOKEN  }}'
+          source_folder: .github
+          target_folder: test
+#          dry_run: false
+      - shell: bash
+        run: |
+          test -n "${{ steps.publish.outputs.commit_hash }}"
+          test -n "${{ steps.publish.outputs.working_directory }}"
+
