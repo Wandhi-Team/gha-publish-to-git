@@ -64,6 +64,7 @@ cd "${WORK_DIR}"
 #
 echo "Initializing repository with remote ${REMOTE}"
 git init || exit 1
+ls
 git config --global user.email "${COMMIT_AUTHOR}@users.noreply.github.com" || exit 1
 echo "git config --global user.email ${COMMIT_AUTHOR}@users.noreply.github.com"
 git config --global user.name "${COMMIT_AUTHOR}" || exit 1
