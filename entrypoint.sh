@@ -71,6 +71,8 @@ git config --global user.name "${COMMIT_AUTHOR}" || exit 1
 echo "git config --global user.name  ${COMMIT_AUTHOR}"
 git remote add origin "${REMOTE}" || exit 1
 git config --global --list
+git config --global --add safe.directory /github/home/*
+git config --global --add safe.directory *
 # Fetch initial (current contents).
 #
 echo "Fetching ${REMOTE}:${BRANCH}"
